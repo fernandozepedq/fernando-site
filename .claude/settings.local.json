@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(ls -la /Users/fernandozepeda/Desktop/fernando-site/ && ls -la \"/Users/fernandozepeda/Desktop/3F4BD35D-D33B-48F1-8A5C-D86E39C83A87 \\(1\\).mov\" && which ffmpeg ffprobe)",
+      "mcp__6a6b8b1e-0bfa-457d-bd78-3f4992308164__list_events",
+      "mcp__dc16bb4b-4b79-4063-a690-a245fa2bcf49__notion-query-data-sources",
+      "WebSearch",
+      "mcp__dc16bb4b-4b79-4063-a690-a245fa2bcf49__notion-create-pages",
+      "mcp__dc16bb4b-4b79-4063-a690-a245fa2bcf49__notion-fetch",
+      "mcp__dc16bb4b-4b79-4063-a690-a245fa2bcf49__notion-update-page",
+      "mcp__094ef6f1-48a3-4629-9abd-d45851bad0d0__search_threads",
+      "mcp__094ef6f1-48a3-4629-9abd-d45851bad0d0__get_thread"
+    ]
+  }
+}

@@ -2,6 +2,7 @@ import { useState } from 'react'
 import type { ReactNode } from 'react'
 import Reveal from '../components/Reveal'
 import ReadingOverlay from '../components/ReadingOverlay'
+import OpenPiece from '../components/OpenPiece'
 import { aboutEssay, aboutEssaySubtitle } from '../content/aboutEssay'
 
 function Org({ href, children }: { href: string; children: ReactNode }) {
@@ -79,14 +80,13 @@ export default function About() {
             {/* Opens a full-screen reading view, not an inline expand —
                 the essay is long enough that unfolding it in place would
                 throw off the section's rhythm */}
-            <button
-              type="button"
-              onClick={() => setEssayOpen(true)}
-              aria-haspopup="dialog"
+            <OpenPiece
+              slug="how-i-think"
+              onOpen={() => setEssayOpen(true)}
               className="draw-underline pb-1 font-serif text-[18px] text-ink transition-colors duration-300 hover:text-moss"
             >
               Read more about how I think →
-            </button>
+            </OpenPiece>
           </div>
         </Reveal>
 

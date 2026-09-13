@@ -71,6 +71,13 @@
     </script>
   </head>
   <body>
+    <!-- Marks that scripting is on, before first paint. The scroll
+         reveals hide their content until an observer fires, which never
+         happens without JavaScript — so those rules are scoped to this
+         class and the prerendered page stays readable either way. -->
+    <script>
+      document.documentElement.classList.add('js')
+    </script>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>

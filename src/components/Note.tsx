@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import { renderInline, type Note as NoteType } from '../content/notes'
 import { essaysBySlug } from '../content/essays'
 import ReadingOverlay from './ReadingOverlay'
+import OpenPiece from './OpenPiece'
 
 /* Expandable note row. The body opens with a grid-template-rows 0fr → 1fr
    transition (composited, no JS height measurement). #<slug> in the URL
@@ -77,14 +78,13 @@ export default function Note({ note }: { note: NoteType }) {
             ))}
 
             {essay && (
-              <button
-                type="button"
-                onClick={() => setEssayOpen(true)}
-                aria-haspopup="dialog"
+              <OpenPiece
+                slug={note.essay}
+                onOpen={() => setEssayOpen(true)}
                 className="draw-underline mt-5 inline-block pb-1 font-serif text-[18px] font-medium text-ink transition-colors duration-300 hover:text-moss"
               >
                 Read the full piece →
-              </button>
+              </OpenPiece>
             )}
           </div>
         </div>

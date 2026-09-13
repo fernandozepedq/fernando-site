@@ -94,7 +94,11 @@ button {
 
 /* Scroll reveal — compositor-only transition, flipped by one shared
    IntersectionObserver in Reveal.tsx */
-.reveal {
+/* Scoped to .js: without JavaScript the observer never fires, so an
+   unscoped rule would leave every prerendered section permanently
+   invisible. The class is set by an inline script in index.html before
+   first paint, so there is no flash for anyone who does have it. */
+.js .reveal {
   opacity: 0;
   transform: translateY(18px);
   transition:
@@ -102,13 +106,13 @@ button {
     transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-.reveal.revealed {
+.js .reveal.revealed {
   opacity: 1;
   transform: none;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .reveal {
+  .js .reveal {
     transition: none;
     opacity: 1;
     transform: none;

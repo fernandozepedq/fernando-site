@@ -26,6 +26,15 @@ export default function VideoPlayer({ film }: { film: TravelFilm }) {
     }
   }
 
+  /* `muted` is a DOM property, not an attribute. React never writes it
+     on the client, but the server renderer emits muted="" — so shipping
+     it as JSX makes every prerendered page fail hydration. Setting it
+     once on mount keeps both sides identical, and it lands long before
+     anything can call play(), so autoplay is still permitted. */
+  useEffect(() => {
+    if (videoRef.current) videoRef.current.muted = true
+  }, [])
+
   useEffect(() => {
     const frame = frameRef.current
     const v = videoRef.current
@@ -93,7 +102,6 @@ export default function VideoPlayer({ film }: { film: TravelFilm }) {
       <img src={film.still} alt="" loading="lazy" decoding="async" className="film-reel-still" />
       <video
         ref={videoRef}
-        muted
         playsInline
         loop
         preload="none"

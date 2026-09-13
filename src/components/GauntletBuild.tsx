@@ -97,6 +97,15 @@ export default function GauntletBuild({
 }) {
   const [playing, setPlaying] = useState(false)
 
+  /* Portals take part in hydration, so a `typeof document` branch is a
+     server/client mismatch, not a fix for one — React names that exact
+     pattern in its hydration error. Instead the first client render
+     matches the server by rendering nothing, and the portal mounts one
+     effect later. The overlay is closed at that point, so nothing moves
+     on screen. */
+  const [mounted, setMounted] = useState(false)
+  useEffect(() => setMounted(true), [])
+
   useEffect(() => {
     if (!open) return
     const onKey = (e: KeyboardEvent) => {
@@ -114,6 +123,8 @@ export default function GauntletBuild({
   useEffect(() => {
     if (!open) setPlaying(false)
   }, [open])
+
+  if (!mounted) return null
 
   return createPortal(
     <div

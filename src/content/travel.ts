@@ -148,9 +148,9 @@ export const photos: TravelPhoto[] = [
   },
   {
     src: '/images/japan-cat-800.jpg',
-    alt: 'Fernando sitting with a cat in a café in Japan',
+    alt: 'Fernando sitting with a cat in a café in Tokyo',
     caption: 'Japan',
-    location: 'Japan',
+    location: 'Tokyo',
     year: '2025',
     note: 'A whole café of them, and this one picked me.',
   },

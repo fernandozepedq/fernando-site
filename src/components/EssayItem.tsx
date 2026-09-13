@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import ReadingOverlay from './ReadingOverlay'
+import OpenPiece from './OpenPiece'
 import { essaysBySlug } from '../content/essays'
 import type { Essay } from '../content/writing'
 
@@ -30,17 +31,16 @@ export default function EssayItem({ essay }: { essay: Essay }) {
   if (full) {
     return (
       <div id={essay.essay}>
-        <button
-          type="button"
-          onClick={() => setOpen(true)}
-          aria-haspopup="dialog"
+        <OpenPiece
+          slug={essay.essay}
+          onOpen={() => setOpen(true)}
           className="group block w-full py-4 text-left"
         >
           {inner}
           <span className="draw-underline mt-2 inline-block pb-1 font-serif text-[17px] text-ink transition-colors duration-300 group-hover:text-moss">
             Read the full piece →
           </span>
-        </button>
+        </OpenPiece>
 
         <ReadingOverlay
           open={open}

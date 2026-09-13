@@ -1,5 +1,6 @@
 import type { CSSProperties, ReactNode } from 'react'
 import Reveal from './Reveal'
+import OpenPiece from './OpenPiece'
 import type { Project } from '../content/projects'
 
 /* Four cream sheets on the bone page. On scroll the set deals like a hand
@@ -85,9 +86,9 @@ function Panel({
     )
   } else if (project.writeup && onOpenWriteup) {
     content = (
-      <button type="button" onClick={onOpenWriteup} className={`${shell} w-full`}>
+      <OpenPiece slug={project.writeup} onOpen={onOpenWriteup} className={`${shell} w-full`}>
         {inner}
-      </button>
+      </OpenPiece>
     )
   } else if (project.link) {
     content = (

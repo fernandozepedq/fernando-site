@@ -260,8 +260,7 @@ export default function GauntletBuild({
           style={{ fontSize: 'clamp(17px, 2vw, 19px)', lineHeight: 1.75 }}
         >
           Designed in Onshape, circuits modeled in CircuitLab, printed on a Prusa,
-          soldered by hand, and coded in Arduino C++. Every mount was printed to fit
-          the exact component it holds.
+          soldered by hand, and coded in Arduino C++.
         </p>
 
         {/* 7. Close */}

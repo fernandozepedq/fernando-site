@@ -28,14 +28,14 @@ export default function Note({ note }: { note: NoteType }) {
         className="group flex w-full items-baseline justify-between gap-6 py-4 text-left cursor-pointer"
       >
         <span
-          className={`font-serif text-[28px] font-semibold transition-colors duration-300 ${
+          className={`font-serif text-[30px] font-semibold leading-[1.15] transition-colors duration-300 sm:text-[35px] ${
             open ? 'text-moss' : 'text-ink group-hover:text-moss'
           }`}
         >
           {note.title}
         </span>
         <span
-          className={`font-serif text-[30px] font-light leading-none text-moss transition-transform duration-300 ${
+          className={`font-serif text-[34px] font-light leading-none text-moss transition-transform duration-300 ${
             open ? 'rotate-45' : ''
           }`}
           aria-hidden="true"
@@ -95,6 +95,7 @@ export default function Note({ note }: { note: NoteType }) {
           open={essayOpen}
           onClose={() => setEssayOpen(false)}
           title={essay.title}
+          subtitle={essay.subtitle}
           sections={essay.sections}
           sourceNote={essay.sourceNote}
         />

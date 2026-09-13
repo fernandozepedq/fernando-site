@@ -14,19 +14,16 @@ export type Essay = {
 
 export const essays: Essay[] = [
   {
-    title: 'Building for the Wrong Audience',
+    title: '10 Lessons from Poseidon Fellows',
     subtitle:
-      'I watched a number climb to $500,000 and was certain that when it hit a million, something in my life would finally click.',
-    date: 'July 2026',
+      'Key takeaways and personal reflections from my time inside UCSD’s new entrepreneurship fellowship.',
+    date: 'August 2026',
     url: '',
-    essay: 'building-for-the-wrong-audience',
+    essay: 'ten-lessons-poseidon-fellowship',
   },
-  {
-    title: 'Diary of the High Performer',
-    subtitle: 'One question, asked of every Poseidon guest speaker',
-    date: 'Coming soon',
-    url: '',
-  },
+  /* "Building for the Wrong Audience" is archived while it is revised.
+     Its full text is still in essays.ts under the same slug, so restoring
+     it is a matter of pasting this entry back. */
   {
     title: 'The UCSD arbitrage',
     subtitle: 'Why the best-kept secret in venture is a beach in La Jolla',

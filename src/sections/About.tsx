@@ -2,7 +2,7 @@ import { useState } from 'react'
 import type { ReactNode } from 'react'
 import Reveal from '../components/Reveal'
 import ReadingOverlay from '../components/ReadingOverlay'
-import { aboutEssay } from '../content/aboutEssay'
+import { aboutEssay, aboutEssaySubtitle } from '../content/aboutEssay'
 
 function Org({ href, children }: { href: string; children: ReactNode }) {
   return (
@@ -17,28 +17,13 @@ function Org({ href, children }: { href: string; children: ReactNode }) {
   )
 }
 
+/* Previously was retired: the prose above now tells that history, and
+   listing it again a few inches later read as saying it twice. */
 const currently: ReactNode[] = [
-  'Founding a Venture Summit at UCSD',
+  'Founding a Venture Summit in San Diego',
   <>
-    Blueprint Investor Track &mdash;{' '}
-    <Org href="https://www.dormroomfund.com/">Dorm Room Fund</Org>
-  </>,
-  'Mechanical Engineering — UCSD',
-]
-
-const previously: ReactNode[] = [
-  <>
-    Founder &mdash; <Org href="https://danosdetailing.com/">Dano&rsquo;s Detailing</Org>{' '}
-    (catalog acquired)
-  </>,
-  <>
-    Inaugural Fellow &mdash;{' '}
-    <Org href="https://today.ucsd.edu/story/poseidon-fellows-first-cohort">
-      Poseidon Fellows
-    </Org>
-  </>,
-  <>
-    Steering Lead &mdash; <Org href="https://sae.eng.ucsd.edu/">Triton Racing FSAE</Org>
+    Studying mechanical engineering &amp; reading philosophy @{' '}
+    <Org href="https://www.ucsd.edu/">UCSD</Org>
   </>,
 ]
 
@@ -48,48 +33,43 @@ export default function About() {
   return (
     <section id="about" className="px-6 py-24 sm:px-10 sm:py-28">
       <div className="mx-auto max-w-4xl">
-        <Reveal>
-          {/* Fluid title: tracks the viewport tightly so it's as large
-              as each phrase can be without wrapping — full title weight
-              on desktop, single lines all the way down to 375px */}
-          <h2
-            className="title-face leading-[1.3] text-ink"
-            style={{ fontSize: 'clamp(21px, 5.9vw, 50px)' }}
-          >
-            Engineering as <span className="text-moss">epistemology</span>.
-            <br />
-            Business as its <span className="text-moss">application</span>.
-            <br />
-            Philosophy as the <span className="text-moss">guide</span>.
-          </h2>
-        </Reveal>
+        {/* No display heading — the section opens on "Hey, I'm Fernando",
+            which a credo above it would collide with. The heading stays
+            for screen readers and the #about anchor. */}
+        <h2 className="sr-only">About</h2>
 
         <Reveal>
           <div
-            className="mt-9 flex flex-col gap-5 font-serif font-medium text-ink/90"
-            style={{ fontSize: 'clamp(16px, 3.7vw, 20px)', lineHeight: 1.7, maxWidth: '680px' }}
+            className="flex flex-col gap-5 font-serif font-medium text-ink/90"
+            style={{ fontSize: 'clamp(18px, 4.2vw, 23px)', lineHeight: 1.65, maxWidth: '700px' }}
           >
+            <p>Hey, I&rsquo;m Fernando. I like to live life as an experiment.</p>
             <p>
-              In first grade I opened a little storefront and sold my mother her own
-              stationery back, marked up. Rainbow Loom bracelets came next, sold to my
-              third grade classmates, then car detailing at seventeen, and through all of
-              it came the same question: how does this work, and what happens if I touch
-              it? That question is the whole of my engineering, and it is the basis of how
-              I think. I have come to see life as a kind of drum, one that reverberates
-              with whatever you touch. Business is the place where that touch gets tested.
-              Philosophy is what stands beside me and keeps the test honest.
+              At seventeen I started an automotive detailing business in my hometown of
+              Tracy, California. Over 2.5 years I grew it to 500+ unique clients and sold
+              the catalog in January 2025. Along the way, I tried building a marketing
+              agency, which failed. Cold calling is hard.
             </p>
             <p>
-              I am drawn to problems at the edge of the physical world: climate, hardware,
-              the unglamorous corners of engineering, because that is where I have found I
-              can make someone feel something genuine. It is why I write, why I make short
-              films with the people I love, why travel itself has never felt optional. To
-              experience life from another vantage, even briefly, is a gift, and it is the
-              verse I hope to write for myself.
+              After that, I spent three months developing an investment thesis on how
+              Coinbase would push 100 million users onto its new blockchain. I pushed my
+              chips in, watched the position climb from $50K to $500K, and over the
+              following eight months lost it all. I ended up $50K in debt around the time
+              I turned 20. I took the last of my money backpacking through Asia, came
+              home, and flipped sectional couches to begin recouping my losses.
             </p>
-            <p className="font-bold text-ink">
-              My north star: make people feel something personal, and through that
-              feeling, help them enact change.
+            <p>
+              I was selected as 1 of 12 for the inaugural Poseidon Fellows cohort, which
+              pulled me into startups and venture capital. I am currently building a
+              private venture summit in San Diego.
+            </p>
+            <p>
+              I&rsquo;m drawn to problems of the physical world: climate, hardware, the
+              unglamorous corners of engineering. Something built well moves people. It is
+              why I write, why I make short films, why I create.{' '}
+              <strong className="font-bold text-ink">
+                I want people to feel something personal and be moved by it.
+              </strong>
             </p>
           </div>
         </Reveal>
@@ -110,28 +90,12 @@ export default function About() {
           </div>
         </Reveal>
 
-        <div className="mt-16 grid grid-cols-1 gap-10 sm:grid-cols-2 sm:gap-12">
+        <div className="mt-16">
           <Reveal>
             <h3 className="eyebrow mb-4">Currently</h3>
             <ul className="flex flex-col gap-3">
               {currently.map((item, i) => (
-                <li
-                  key={i}
-                  className="font-sans text-[15px] leading-relaxed text-ink/85"
-                >
-                  {item}
-                </li>
-              ))}
-            </ul>
-          </Reveal>
-          <Reveal delay={0.08}>
-            <h3 className="eyebrow mb-4">Previously</h3>
-            <ul className="flex flex-col gap-3">
-              {previously.map((item, i) => (
-                <li
-                  key={i}
-                  className="font-sans text-[15px] leading-relaxed text-ink/85"
-                >
+                <li key={i} className="font-sans text-[16px] leading-relaxed text-ink/85">
                   {item}
                 </li>
               ))}
@@ -144,6 +108,7 @@ export default function About() {
         open={essayOpen}
         onClose={() => setEssayOpen(false)}
         title="How I Think"
+        subtitle={aboutEssaySubtitle}
         sections={aboutEssay}
       />
     </section>

@@ -12,7 +12,7 @@ export default function EssayItem({ essay }: { essay: Essay }) {
 
   const inner = (
     <>
-      <span className="block font-serif text-[28px] font-semibold text-ink transition-colors duration-300 group-hover:text-moss">
+      <span className="block font-serif text-[30px] font-semibold leading-[1.15] text-ink transition-colors duration-300 group-hover:text-moss sm:text-[35px]">
         {essay.title}
       </span>
       {essay.subtitle && (
@@ -46,6 +46,7 @@ export default function EssayItem({ essay }: { essay: Essay }) {
           open={open}
           onClose={() => setOpen(false)}
           title={full.title}
+          subtitle={full.subtitle}
           sections={full.sections}
           sourceNote={full.sourceNote}
         />

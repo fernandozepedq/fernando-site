@@ -5,16 +5,19 @@ export type Project = {
      not summaries; a panel that teases well reads finished even before
      the deep-dive behind it is written. More copy lands here later. */
   teaser: string
-  /* Screenprint plate revealed in the panel — moss ink keyed to
-     transparency, so it prints onto the paper instead of covering it. */
+  /* Screenprint plate printed into the sheet — moss ink keyed to
+     transparency, blended with multiply so it darkens the paper rather
+     than covering it. */
   image: string
-  /* Plates are contained (never cropped), so each one needs its own
-     scale to sit right in a tall column. */
-  plateScale: number
-  /* Where the plate sits vertically in the column (CSS object-position). */
-  imagePos?: string
+  /* Plates are contained (never cropped) and sit on the foot of the
+     sheet. This is how much of the sheet's height each one may fill —
+     a tall figure takes more, the stacked cars less, so every plate
+     lands at a comparable visual weight. */
+  plateHeight: string
   /* Opens the on-site full-build overlay. */
   buildPage?: { label: string }
+  /* Key into writeupsBySlug — opens the long-form write-up in the reader. */
+  writeup?: string
   /* The full read lives off-page — swap the TODO hrefs for real URLs. */
   link?: { href: string; label: string }
 }
@@ -23,35 +26,35 @@ export const projects: Project[] = [
   {
     slug: 'danos-detailing',
     title: "Dano's Detailing",
-    teaser: 'Lessons from my six figure business and its catalog acquisition.',
+    teaser:
+      'Lessons from my six figure business and its catalog acquisition. Everything I learned from my 3 year adventure.',
+    writeup: 'danos-detailing',
     image: '/images/plates/danos.png',
-    plateScale: 1.2,
-    imagePos: 'center 72%',
+    plateHeight: '72%',
   },
   {
     slug: 'investment-thesis',
     title: 'Investment Thesis',
-    teaser: 'Going from 50k to 500k and back down to -50k. Lessons on what not to do.',
+    teaser:
+      'A $50k position that reached $500k and went to zero. What I got right, and what it cost me.',
+    writeup: 'investment-thesis',
     image: '/images/plates/thesis.png',
-    plateScale: 1.12,
-    imagePos: 'center 70%',
+    plateHeight: '86%',
   },
   {
     slug: 'venture-summit',
     title: 'Venture Summit',
-    teaser: 'Building an institutional venture summit at UCSD from zero.',
+    teaser:
+      'Building a private venture summit in San Diego. Why SD is a hidden gem for startups.',
     image: '/images/plates/summit.png',
-    plateScale: 1.16,
-    imagePos: 'center 72%',
+    plateHeight: '86%',
   },
   {
     slug: 'batman-gauntlet',
     title: 'Batman Gauntlet',
     teaser: 'A fully 3D printed gauntlet with spikes that deploy.',
     image: '/images/plates/gauntlet.png',
-    /* Soft pencil — runs larger than the ink plates to hold its weight */
-    plateScale: 1.5,
-    imagePos: 'center 62%',
-    buildPage: { label: 'See the full build' },
+    plateHeight: '78%',
+    buildPage: { label: 'Build' },
   },
 ]

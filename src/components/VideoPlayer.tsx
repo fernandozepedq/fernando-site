@@ -1,134 +1,149 @@
-import { useEffect, useState } from 'react'
-import { createPortal } from 'react-dom'
+import { useEffect, useRef, useState } from 'react'
 import type { TravelFilm } from '../content/travel'
 
-/* Poster pops on hover; clicking opens the film in a chromeless
-   lightbox — no native control bar, no overflow menu, just the film,
-   click-to-pause, and a large × to leave. No video bytes load until
-   the lightbox opens. */
+/* A film in a cinematic frame. It plays, silently, the moment it comes
+   into view and pauses when it leaves — the film is the thing on the
+   page, not a thumbnail for one. The still holds the frame until the
+   first real frame is ready, and stands in entirely where autoplay is
+   refused (iOS Low Power Mode, reduced motion), so tapping the frame
+   also plays. Sound and full screen are the two things a visitor
+   actually wants, so they are the two controls.
+
+   Nothing here depends on hover. */
 export default function VideoPlayer({ film }: { film: TravelFilm }) {
-  const [open, setOpen] = useState(false)
-  // Where the zoom starts — captured from the poster's position on click
-  const [origin, setOrigin] = useState<{ dx: number; dy: number; s: number } | null>(null)
-  const [entered, setEntered] = useState(false)
+  const frameRef = useRef<HTMLElement>(null)
+  const videoRef = useRef<HTMLVideoElement>(null)
+  const [playing, setPlaying] = useState(false)
+  const [muted, setMuted] = useState(true)
 
-  // One frame after the lightbox mounts at the poster's position, release
-  // it — the transition carries you from the card into the screen.
-  useEffect(() => {
-    if (!open) return
-    const t = setTimeout(() => setEntered(true), 30)
-    return () => {
-      clearTimeout(t)
-      setEntered(false)
+  /* The preview bytes attach only once the frame is near the viewport —
+     nothing downloads for a section the visitor never reaches. */
+  const attach = () => {
+    const v = videoRef.current
+    if (v && !v.src) {
+      v.src = film.preview
+      v.load()
     }
-  }, [open])
+  }
 
-  // Escape closes; the page behind doesn't scroll while watching.
   useEffect(() => {
-    if (!open) return
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') setOpen(false)
+    const frame = frameRef.current
+    const v = videoRef.current
+    if (!frame || !v) return
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.intersectionRatio >= 0.45) {
+          if (reduce) return
+          attach()
+          v.play().catch(() => {})
+        } else if (!v.paused) {
+          v.pause()
+        }
+      },
+      { threshold: [0, 0.45, 1] },
+    )
+    io.observe(frame)
+    return () => io.disconnect()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  const toggle = () => {
+    const v = videoRef.current
+    if (!v) return
+    attach()
+    if (v.paused) v.play().catch(() => {})
+    else v.pause()
+  }
+
+  const toggleSound = () => {
+    const v = videoRef.current
+    if (!v) return
+    attach()
+    v.muted = !v.muted
+    setMuted(v.muted)
+    if (v.paused) v.play().catch(() => {})
+  }
+
+  /* Full screen plays the full-quality file with sound. Swapping the
+     source mid-play restarts from the top, which is what "watch the
+     film" should do anyway. */
+  const fullScreen = () => {
+    const v = videoRef.current
+    if (!v) return
+    if (v.src !== new URL(film.src, window.location.href).href) {
+      v.src = film.src
+      v.load()
     }
-    window.addEventListener('keydown', onKey)
-    document.body.style.overflow = 'hidden'
-    return () => {
-      window.removeEventListener('keydown', onKey)
-      document.body.style.overflow = ''
-    }
-  }, [open])
+    v.muted = false
+    setMuted(false)
+    const el = v as HTMLVideoElement & { webkitEnterFullscreen?: () => void }
+    if (el.requestFullscreen) el.requestFullscreen().catch(() => {})
+    else el.webkitEnterFullscreen?.()
+    v.play().catch(() => {})
+  }
 
   return (
-    <figure>
+    <article
+      ref={frameRef}
+      className={`film-reel${playing ? ' is-playing' : ''}`}
+      aria-label={`${film.title}, ${film.duration}`}
+    >
+      <img src={film.still} alt="" loading="lazy" decoding="async" className="film-reel-still" />
+      <video
+        ref={videoRef}
+        muted
+        playsInline
+        loop
+        preload="none"
+        poster={film.still}
+        onPlaying={() => setPlaying(true)}
+        onPause={() => setPlaying(false)}
+        className="film-reel-video"
+      />
+      <div className="film-reel-scrim" aria-hidden="true" />
+
+      {/* The whole frame is the play/pause surface; the controls sit on
+          top and stop the click from reaching it. */}
       <button
         type="button"
-        onClick={(e) => {
-          const r = e.currentTarget.getBoundingClientRect()
-          setOrigin({
-            dx: r.left + r.width / 2 - window.innerWidth / 2,
-            dy: r.top + r.height / 2 - window.innerHeight / 2,
-            s: Math.max(r.width / window.innerWidth, 0.18),
-          })
-          setOpen(true)
-        }}
-        aria-label={`Watch ${film.title}`}
-        className="group relative block aspect-[4/3] w-full overflow-hidden bg-ink transition-transform duration-500 ease-out hover:scale-[1.02]"
+        onClick={toggle}
+        aria-label={playing ? `Pause ${film.title}` : `Play ${film.title}`}
+        className="film-reel-surface"
       >
-        <img
-          src={film.poster}
-          alt=""
-          loading="lazy"
-          decoding="async"
-          style={film.posterPosition ? { objectPosition: film.posterPosition } : undefined}
-          className="h-full w-full object-cover transition-transform duration-500 ease-out group-hover:scale-[1.04]"
-        />
-        <span className="absolute inset-0 flex items-center justify-center">
-          <span className="flex h-14 w-14 items-center justify-center rounded-full border border-cream/70 bg-ink/30 transition-transform duration-300 group-hover:scale-110">
-            <svg viewBox="0 0 24 24" className="ml-0.5 h-5 w-5 fill-cream" aria-hidden="true">
-              <path d="M8 5.5v13l11-6.5-11-6.5Z" />
-            </svg>
-          </span>
+        <span className="film-reel-glyph" aria-hidden="true">
+          <svg viewBox="0 0 24 24">
+            <path d="M8 5.5v13l11-6.5-11-6.5Z" />
+          </svg>
         </span>
       </button>
 
-      <figcaption className="mt-3 flex items-baseline justify-between">
-        <span className="font-serif text-[17px] font-medium text-ink">{film.title}</span>
-        <span className="eyebrow">{film.duration}</span>
-      </figcaption>
+      <span className="film-reel-year">{film.year}</span>
 
-      {/* Lightbox — portaled to <body>: the travel section is inside a
-          content-visibility containment context, which would otherwise
-          clip a position:fixed overlay to the section's own box. */}
-      {open &&
-        createPortal(
-          <div
-            className="film-zoom fixed inset-0 z-[70] bg-ink/95"
-            style={{
-              opacity: entered ? 1 : 0,
-              transition: 'opacity 0.45s ease',
-            }}
-            onClick={() => setOpen(false)}
-            role="dialog"
-            aria-label={film.title}
+      <div className="film-reel-lockup">
+        {/* Title alone — the place names are kept in the content for
+            captions and metadata, but over the picture they were one
+            line too many. */}
+        <h3 className="film-reel-title">{film.title}</h3>
+        <div className="film-reel-ctl">
+          <span className="film-reel-dur">{film.duration}</span>
+          <button
+            type="button"
+            onClick={toggleSound}
+            aria-pressed={!muted}
+            className="film-reel-pill"
           >
-            <button
-              type="button"
-              onClick={() => setOpen(false)}
-              aria-label="Close film"
-              className="absolute right-6 top-5 z-10 font-serif text-[44px] font-light leading-none text-cream/80 transition-transform duration-300 hover:rotate-90 hover:text-cream"
-            >
-              ×
-            </button>
-
-            {/* The screen flies in from the poster you clicked */}
-            <div
-              className="film-zoom flex h-full w-full items-center justify-center px-4 py-10 sm:px-10"
-              style={{
-                transform:
-                  entered || !origin
-                    ? 'none'
-                    : `translate(${origin.dx}px, ${origin.dy}px) scale(${origin.s})`,
-                transition: 'transform 0.55s cubic-bezier(0.22, 1, 0.36, 1)',
-              }}
-            >
-              <video
-                ref={(el) => {
-                  el?.play().catch(() => {})
-                }}
-                src={film.src}
-                playsInline
-                loop
-                onClick={(e) => {
-                  e.stopPropagation()
-                  const v = e.currentTarget
-                  if (v.paused) v.play()
-                  else v.pause()
-                }}
-                className="max-h-full w-auto max-w-full cursor-pointer shadow-2xl"
-              />
-            </div>
-          </div>,
-          document.body,
-        )}
-    </figure>
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M4 9v6h4l5 4V5L8 9H4zm12.5 3a4.5 4.5 0 0 0-2.5-4v8a4.5 4.5 0 0 0 2.5-4z" />
+            </svg>
+            {muted ? 'Sound' : 'Mute'}
+          </button>
+          <button type="button" onClick={fullScreen} className="film-reel-pill">
+            Full screen
+          </button>
+        </div>
+      </div>
+    </article>
   )
 }

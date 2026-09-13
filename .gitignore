@@ -25,9 +25,20 @@ dist-ssr
 
 # Personal / working files — not meant for a public repo
 /*.pdf
-/ChatGPT Image*.png
-/Gemini_Generated_Image*.png
-/image.png
-/robot2.png
 /PLANNING_NOTES.md
 /drafts/
+
+# Loose images dropped in the repo root while working. Anything the site
+# actually serves lives under public/, so nothing at the top level ships.
+/*.jpg
+/*.jpeg
+/*.png
+/*.JPG
+/*.JPEG
+/*.PNG
+/*.webp
+/*.HEIC
+
+# Superseded by yosemite-1280.mp4 (9.7 MB) and yosemite-preview.mp4.
+# The 20 MB original stays on disk but is no longer deployed.
+/public/video/yosemite.mp4

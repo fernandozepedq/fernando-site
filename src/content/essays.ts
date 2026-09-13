@@ -1,15 +1,184 @@
 import type { EssaySection } from './aboutEssay'
+import { aboutEssay, aboutEssaySubtitle } from './aboutEssay'
 
 /* On-site long-form pieces, keyed by slug. A note in the Writing section
    shows a blurb and links here; the full text opens in the ReadingOverlay
    (same full-screen reader as the About essay). */
 export type Essay = {
   title: string
+  subtitle?: string
   sections: EssaySection[]
   sourceNote?: string
 }
 
 export const essaysBySlug: Record<string, Essay> = {
+  /* Same piece the About section opens, registered here so the Writing
+     notes can reach it too. One source of truth in aboutEssay.ts. */
+  'how-i-think': {
+    title: 'How I Think',
+    subtitle: aboutEssaySubtitle,
+    sections: aboutEssay,
+  },
+
+  'ten-lessons-poseidon-fellowship': {
+    title: '10 Lessons from Poseidon Fellows',
+    sections: [
+      {
+        paragraphs: [
+          'As I am beginning my final year at UC San Diego, I’d like to reflect on one of the most impactful opportunities I was a part of and leave you with some freshly minted lessons. This past spring I was selected to be 1 of 12 in the inaugural cohort of [Poseidon Fellows](https://today.ucsd.edu/story/poseidon-fellows-first-cohort), a fellowship focused on company building, venture capital and leadership. Under the mentorship of Shawn Xu, partner at [Lowercarbon Capital](https://lowercarbon.com/), and Elizabeth Lyons, associate professor in the [School of Global Policy and Strategy](https://gps.ucsd.edu/), I had the chance to sit down with founders, investors, and the first U.S. Chief Data Scientist.',
+          '![Poseidon Fellows Inaugural Cohort](/images/poseidon/inaugural-cohort.jpg)',
+          'I entered this fellowship with a clouded sense of direction having sold the business catalog for my automotive detailing business. Around this same time I was weathering the storm of my failed investment thesis that took me through a roller coaster of emotions going from $50K to $500K before losing it all and being $50K in debt to investors around my 20th birthday. I describe this period of my life as the "fog", a deeply transformative time with no compass.',
+          'Oftentimes I felt that I was moving in circles and that the "fog" had permanently damaged the sails of my ship. I view Poseidon Fellows as being the mirror that reflected back the greatness I didn’t know I was capable of. I had been operating under self-doubt wearing the costume of realism. Below are my takeaways and reflections I hope serve as inspiration to wherever this finds you.',
+        ],
+      },
+      {
+        heading: '1. Careers look like unbroken winning from the outside',
+        paragraphs: [
+          'It is very easy to zoom out on someone successful and see a run of wins stacked one after the other.',
+          'From that distance you lose the struggle, the grind, and the days spent chewing glass. DJ Patil, former U.S. Chief Data Scientist, made this point during his session, and I later found that he had written a sharper version of it years before, in a [2013 post](https://www.linkedin.com/pulse/20130521100832-4933865-class-of-2013-why-i-m-counting-on-you-to-fail/) I would recommend reading.',
+          '> You can read all about me in the bio or my LinkedIn profile and you’ll see that I received my Ph.D in Applied Math from here 11 years ago. I’ve worked for the Department of Defense and been to Kazakhstan. But you won’t see all the failures that made up the journey.',
+          'What that journey actually contains, [in his telling](https://www.linkedin.com/pulse/20130521100832-4933865-class-of-2013-why-i-m-counting-on-you-to-fail/), is a high school graduation he only reached because a kind administrator took pity on him. What followed was zero college acceptance letters. Years later at Maryland he failed his first graduate class and scored second to last on his first PhD qualifying exam, in what he calls one of the toughest and loneliest years of his life. The next time the qualifiers came round he had the highest scores. Several years after that he would co-coin the title "data scientist" and become the second person ever to ride a skateboard in the White House. By the fifth session I had heard four more versions of these stories, none of which appear in the way these people get introduced.',
+          '![DJ Patil & I after dinner](/images/poseidon/dj-and-i.jpg)',
+          'The struggle I and almost every student I talk to share is this endless running against versions of other people that do not exist. You are setting your own struggle which you experience in full resolution against somebody else’s highlight reel. Inevitably you will feel like you are failing.',
+          'This endless race simply does not exist. It took me long enough to figure out that I was running from a version I was afraid of becoming and running towards a version sold to me. The goal was never to surpass the people around you but to surpass the version of who you were yesterday.',
+        ],
+      },
+      {
+        heading: '2. Follow the thread of curiosity and gravitate towards joy',
+        paragraphs: [
+          'What you do with unclaimed time is the most honest information you have about yourself.',
+          'In the first session with Michael Retchin, founder and CEO of a stealth startup, I wanted to push on how a person tells whether the path they are on is the right one. Michael answered by recounting his own, which started with a childhood fascination with computers and programming. His advice was to treat what you keep returning to in your free time as a signal and then to build something structural around it. Shawn put it as a question. After all the Netflix shows have been watched and the distractions consumed, where does your mind go?',
+          '![Shawn & I after our end of year dinner](/images/poseidon/shawn-and-i.jpg)',
+          'I took up their pragmatic advice and decided to eliminate my distractions. I deleted all social media apps and after an interim of constantly reaching for my phone, old habits I had forgotten about began to emerge. I reflected on what brought me joy and the answer lay in what I created when no one watched. Films I would shoot, monologues I would write, stories I would share late at night with friends. I never committed to developing the habits I loved or to sharing them with others. As I began to film and write more, it has proven to be a guiding force to wherever life takes me.',
+          'Although I plan to not have my career centered around writing, this joyful pursuit has proven to be useful in ways I didn’t imagine. It has served as a sandbox for my imagination and a playground to train my articulation. Late night writing sessions have brought me clarity to the path I am navigating and served as physical reminders to where I am headed.',
+          'I had assumed that finding direction would mean learning something new about myself, when the whole exercise came down to paying attention to what I had already been doing.',
+        ],
+      },
+      {
+        heading: '3. Your perspective is your superpower',
+        paragraphs: [
+          'I had a habit of discounting my own views and it took someone interrupting me to notice it.',
+          'I said something at dinner that I had said a hundred times before. I was talking about public policy when I opened with the phrase, "you know better than I do on this topic." One of the speakers stopped me there and told me never to say it again.',
+          'The argument was that I had volunteered away what I was bringing to the table. Your background, your beliefs, and the particular way you see a problem are your strength, and downplaying them in your first six words trains the room to discount whatever follows.',
+          'I began to question whether I had been challenging my own beliefs at all, and what it actually takes to have a distinct perspective.',
+          '![DJ, Shawn, and fellows after our third session](/images/poseidon/dj-shawn-group.jpg)',
+          'Michael Retchin gave me a different outlook. The version you usually hear is to keep a list of your contrarian beliefs. Michael’s take is that the criterion paralyzes people, since you can’t really know what everyone else believes. His version is to keep a running list of what you firmly believe in. Dig far enough into it and the beliefs nobody else holds will surface on their own. You’ll know other people disagree with the beliefs when you present them and they vehemently disagree with you. A belief left unexamined in your head feels far more defensible than it does on a page.',
+          'To keep this from becoming stubbornness, it is best to have strong opinions loosely held. You commit to a position hard enough that it can be tested, and you stay willing to be shown wrong. Conviction without revisability is just noise, and revisability without conviction lacks depth.',
+          'I have begun keeping note of my contrarian beliefs. The one I am most willing to defend is that business creation is a religious act.',
+          'I mean that structurally. You bring something into existence, you stake yourself on a future you cannot verify, and you are answerable to it in a way that never resolves into cost and benefit, all of which are theological categories not commercial ones. If business creation is a religious act then a great deal of it is idolatry, and the god is rarely money. It is usually the founder, and the company is the monument.',
+        ],
+      },
+      {
+        heading: '4. There is no playbook',
+        paragraphs: [
+          'Other people’s past experience can’t tell you what you should do in the present.',
+          'For most of my fog I was working constantly and producing nothing. I was always moving toward something but couldn’t tell you what it was. I spent more time asking for advice, curating a list of podcasts, never devoting the time necessary to build up a foundation. It was always easier to start something new, to reach for the next shiny thing, and put off questioning why.',
+          '> It is easier to wage a battle against distant abstractions than to fight the quiet war inside one’s own soul.\n— Leo Tolstoy',
+          'Part of the fellowship contains office hours with Shawn. There I pushed on how a person is to decide the right move in their career. I expected to walk through some weighing of the options. Instead he asked me what my North Star principles were: what I would live for, die for, stand for and fight for.',
+          'Rick Rubin has a great philosophy surrounding this. You have to take the time to know yourself because you are the only audience you actually know. The moment you begin to perform for others you produce a projection rather than an authentic work. A playbook is what I was searching for. It is a telling of what worked for a person whose circumstances were never yours.',
+          '![Supporting the fellows at the Undergraduate Engineering Research Symposium](/images/poseidon/research-symposium.jpg)',
+          'What I have built since is an operating system. First, inspect the foundation upon which you act. If someone watched your last 30 days without hearing your thoughts, what would you need to unlearn? Your rulebook sits on top of this, a written guide that decides what a day, a week, a month gets spent on. Systems are next, sequences of planned moves that bring you closer to your North Star. Work with no foundation under it is just noise. It rebuilds itself every few weeks until you are spending more time maintaining rather than creating.',
+          'The whole purpose of your operating system is to remove friction. Personally, I noticed that my house had no dedicated spaces. This left me negotiating with myself on what needed to be done. To remove the self-negotiation, I recently created sanctuaries: dedicated spaces for deep work, for reading, for leisure.',
+          'I am not working any less than I did in the fog. What changed is that I stopped looking for the answer somewhere else and sat down with the questions I had been avoiding.',
+        ],
+      },
+      {
+        heading: '5. Learn to sell and to tell a story',
+        paragraphs: [
+          'Across five sessions the pattern I found most surprising revolved around eloquence.',
+          'Every guest speaker would carry you somewhere with their words. They didn’t just answer questions, they told compelling stories that you were a part of.',
+          'I asked every speaker the following question: "If you could travel back in time to sit across from your 21 year old self, is there any skill, framework, or advice you wish you would’ve told them?" The responses I heard ranged from sales to cold calling to storytelling.',
+          'As they all recounted the path that led them here, I was reminded of this [video](https://youtu.be/GA8z7f7a2Pk?si=sgX0iGdZWpWB-heZ) of a man alone on a hill, dancing shirtless while everyone around decides not to look. After a while alone, one person joins in and suddenly everyone follows. Before the dance party happens, the man on the hill has to be willing to look ridiculous for long enough that somebody else can arrive. The man on the hill has to play the fool.',
+          'I reflected on what the speakers told me and noticed that my clarity of expression did not match my clarity of thought. If I were to convince others to play the fool with me, I would have to articulate myself better.',
+          '![Lunch talks with the fellows](/images/poseidon/lunch-talks.jpg)',
+          'I’ve found in sales that you always have a superpower that is being underutilized. When I started my detailing business at 17, I was selling to people three times my age and while being young is an obstacle when establishing credibility, it became my secret sauce. Being young splits the room into people who want to help a young hustler, people who will at least give you advice, and people who have already decided your product is bad.',
+          'Every one of those outcomes returns something. The cost of making the ask is close to nothing and the cost of not doing so is the entire opportunity. Once customers found out that an 18 year old produced a high quality service, they began seeking me out.',
+          'This doesn’t apply solely to age. I have found that being a student is the current superpower I possess and try to lean into. When I hustled and flipped sectional couches, the superpower was my truck that could offer free delivery. When I ran my marketing agency the superpower was my recent success in the detailing business. I could show local companies how to make their inbound leads look more like mine.',
+        ],
+      },
+      {
+        heading: '6. Mentorship and relationships compound',
+        paragraphs: [
+          'There are plenty of people who will help you out, most of them just don’t know you exist.',
+          'When Michael Retchin spoke to us he mentioned that he had emailed around two hundred people he admired, asking for their input and hoping one of them might become a mentor. Around this time, I put little to no effort in reaching out to ask for help. I viewed it as a declaration of weakness and felt I had no permission to do so.',
+          'The great privilege of being a student is that everyone expects you to fail. You are underpromising by default which leaves overdelivering as the one thing available to you. It also means you have been handed an invitation to play the fool. I constantly try to remind myself of the following:',
+          '> When you are 20, you care about what everyone thinks. When you are 40, you stop caring about what everyone thinks. When you are 60, you realize no one was ever thinking about you in the first place.',
+          '![Poseidon Fellows end of year dinner with Tess Hatch & Jimmy Douglas](/images/poseidon/end-of-year-dinner.jpg)',
+          'What I realized is that asking is not extraction. Asking for help creates an opportunity to learn and an opportunity to give. I’ve found that most people want to be useful and are almost never given the chance to be.',
+          'When I want further clarity on a decision I am sitting on, I now write down five people who might know the answer and contact all of them. Cold email, cold DM, whatever reaches them. Silence is the outcome I assume going in and it costs me nothing. You’d be surprised how many people reply.',
+          'Toward the end of the fellowship we were given office hours with Tess Hatch, Managing Director at Stifel Venture Bank and former partner at Bessemer Venture Partners. She gave me the vocabulary for what happens after that first reply. There are mentors, who give you advice when you reach out. There are champions, who reach out to you. And there are sponsors, who put you into positions unprompted. Her own practice, which she credits to Tina Seelig, is to go through your calendar and send the thanks or the check-in on a regular basis rather than when you need something.',
+          'I asked Tess the same question I had asked every speaker, "what would you tell your twenty-one year old self?" She said she would answer it after I read Tina Seelig’s What I Wish I Knew When I Was 20. What she gave me instead of an answer was an invitation to reach out again, and I have been using it since.',
+        ],
+      },
+      {
+        heading: '7. Study inflections not outcomes',
+        paragraphs: [
+          'I have never once changed direction while things were going well.',
+          'Inflections came up more than once during the fellowship. The idea comes from Mike Maples Jr., who writes about it [here](https://medium.com/@m2jr/how-inflections-let-startups-change-the-rules-a8cca5f9b948) and in his book Pattern Breakers. The term comes from Andy Grove who used it at Intel to describe a turning point in how people think, what they believe, what they can do, or a change in what they value. He meant it as a warning to incumbents. Maples reads it as an attacker’s advantage, since a startup has nothing to defend and everything to gain when the rules change.',
+          'I believe the definition can be applied more personally. There are points on your timeline that change the trajectory of who you are and what you end up becoming.',
+          'I count three inflections of mine. Two of them you have already met: my detailing business and my failed investment. The third is the reason you are reading this: the Poseidon Fellowship.',
+          '![The Inaugural 12 fellows](/images/poseidon/inaugural-twelve.jpg)',
+          'The investment is the one worth showing, because the thinking was not entirely wrong. After the FTX collapse, I was deep enough in the forums to watch Coinbase take significant market share. Base chain had just launched, hype was building around SAB 121’s rescission, and the first ETFs were on the horizon. On Base chain, Aerodrome had become the major DEX providing liquidity. I instinctively went looking for the next tier of protocol nobody was watching. There I found Alienbase, a DEX positioned to benefit from increased on chain volume. I pushed in all my chips and it played out exactly as I had prepared for.',
+          'What failed was that I had a thesis and no structure. I told myself I would take chips off the table, not knowing how avaricious I would become. I watched a year erase what I had built and before I knew it, I learned a $550,000 lesson.',
+          '> I learned to love the thing that I most wish had not happened.\n— Stephen Colbert',
+          'My setback was not an interruption of an inflection. It was one, and the third inflection does not happen without it. I used to be motivated by how impressive my achievements were, not seeing the inflated ego or self-pride I built up. I learned valuable lessons on humility and without this loss, who knows if I would be writing today.',
+          'You cannot summon an inflection. What you can do is go backwards, write out the points where your life actually changed direction. Look at what was happening immediately before each one and acknowledge the faults in your thinking. Personally, heartbreak at seventeen turned into the detailing business overnight. An arrogant level of self-pride turned crypto obsession into my investment. The lowest point of my life turned into an application I sent expecting nothing. If the same turns out to be true for you, then the stretch you are in right now is setting up the next turn.',
+        ],
+      },
+      {
+        heading: '8. Swing big when quitting is the rational move',
+        paragraphs: [
+          'The heaviest card stacked against you is your own self-doubt.',
+          'The last session was with Jimmy Douglas, founder and CEO of Plug. Jimmy came from being an executive at Tesla where he had a front row seat to the used EV market. At the time, no real EV marketplace existed and what was in place was largely broken. With a problem that was uniquely his, Jimmy left to start Plug around the time his child was born.',
+          'What followed was six months without a single car sale and more than fourteen failed go-to-market pivots. Even with a newborn at home Jimmy kept swinging.',
+          'Plug had been built to stay balance sheet light and did not buy vehicles directly from consumers, and in 2025 that changed. The year before, Plug had bought from twelve unique sellers. By Q4 of 2025, its sales volume had passed everything the company did in the whole of 2024. Twelve sellers had become more than four hundred, and as of this August that number is over sixteen hundred.',
+          '![Working through some problems with a couple fellows](/images/poseidon/working-through-problems.jpg)',
+          'Jimmy’s story is an inspirational lesson on tenacity. The facts that make quitting look rational are the same facts that make the swing possible. Every person I met this past spring built during a stretch when stopping would have been a reasonable choice.',
+          'I am often reminded of this voice in my head whose only job is to get me to stop. On a run it tells me that my legs hurt badly and stopping now would be reasonable. In a productive week it tells me I should rest, that I have done enough. It is very good at its work, because it never argues with anything I actually believe. It only ever hands me a reason I was already looking for.',
+          'The entire discipline is learning to hear this as a voice rather than as information.',
+        ],
+      },
+      {
+        heading: '9. Lead with authenticity',
+        paragraphs: [
+          'In a world that demands performance, the greatest luxury is authenticity.',
+          'The full version of who I was, actually present, committed and visible, was never genuinely shown to anyone. Once you have lived performing through academics and achievement, the masks pile up and they get heavy. If you are not genuine to yourself, nothing is there. It all takes the form of a projection. It takes time after you set the masks down to work out what a life without them actually looks like.',
+          'This performance costs both sides of the room. The performer never reaches what they are capable of in their true form, and the people watching never get to see it either. Everyone settles for a lesser version of a person that took real effort to produce.',
+          'Authenticity is becoming increasingly more valuable. With competence being democratized in front of us, judgment and taste all come from being authentic rather than a polished performance. This can also be seen socially. Every public self has been optimized, and the scarce thing now is somebody unguarded.',
+          '![Dwight Crow & crew after our fourth session](/images/poseidon/dwight-crew.jpg)',
+          'Being authentic carries a level of asymmetry. Going first is expensive but serves as an invitation for others to do the same. Throughout the fellowship I reinvented myself. I decided to open up and let everyone know about the story I was writing for myself.',
+          'I was afraid of being pitied. The response I got instead was, "what is the next venture?" That alone was what I needed to hear and enough to kickstart something in me. The cost of going first is priced almost entirely by your own imagination and in a sea of information, the more personal yours is, the less it resembles anyone else’s.',
+        ],
+      },
+      {
+        heading: '10. Give early',
+        paragraphs: [
+          'You don’t wait until you succeed to give. You succeed by giving.',
+          'Being in debt, I can’t invest, hire, or fund anything. What I can do is notice someone, thank them, and tell them what their advice has actually produced. The threshold to give is far lower than people assume. It does not take extravagance, it takes a message, which is exactly why it belongs early in your career. I know what it does on the other end because at the lowest point of my life, someone gave back and changed the direction I was headed.',
+          'When I received a scholarship out of high school I wrote to the person who had selected me six months later to say thank you. Last year we had lunch where he told me that I was the first student ever who had done that. I thought of the note as an ordinary courtesy. It cost me twenty minutes and he was still carrying it years later.',
+          '![Shawn & Liz with some special gifts from the fellows](/images/poseidon/shawn-liz-gifts.jpg)',
+          'The reason giving back feels impossible as an early grad is that everyone pictures giving upward. I have nothing to hand DJ Patil. But I am two years ahead of somebody who does not know this fellowship exists.',
+          'The fellows have taken on an initiative of our own. I call it The Poseidon Post, one page from each founding fellow, passed down to every cohort that comes after us. The goal is to hand each new Poseidon Fellow a document of what we wish we would’ve known before our first session. It costs nothing but the time to write it, and none of us will be in the room when it gets read.',
+        ],
+      },
+      {
+        heading: 'Where this leaves me',
+        paragraphs: [
+          'I said earlier that this was the third personal inflection. The application was a Hail Mary written on a hiking trip through Sequoia National Park. I expected nothing from it and it became the reason I am writing this.',
+          'The fellowship gave me a different set of defaults. It got me to look at all the pieces of myself that had fallen, gather them up, and go after the next thing.',
+          '> Everything around you that you call life was made up by people no smarter than you.\n— Steve Jobs',
+          'Where I am headed is into early stage startups. I am actively looking to join an ambitious team, bringing what deep failure taught me alongside the lessons I have accumulated this past spring. I am also building something of my own, a private closed-door venture summit that brings together the highest caliber founders with the necessary capital formation across San Diego. It serves to fill a gap I clearly see.',
+          'The one thing I am doing immediately is the least obvious. I am slowing down. I have been running on a timeline somebody else set and it has cost me more presence than progress. I am spending more time on the things that actually matter: staying authentic, leaning not on my own understanding, and rejoicing through the tribulations rather than waiting for them to end.',
+          'Being present is the most ambitious thing you can do, because it is a pursuit that never ends.',
+          '> We win when we pick up everyone around us.\n— DJ Patil',
+          'A special thanks to Shawn Xu & Elizabeth Lyons for making this fellowship possible. Thank you Michael Retchin, DJ Patil, Dwight Crow, Jimmy Douglas, and Tess Hatch for your advice and wise words! To the 11 fellows that bounced ideas around with me, much to come!',
+        ],
+      },
+    ],
+  },
+
+  /* ARCHIVED — pulled from the Writing index in writing.ts while it is
+     revised. Text kept here so restoring it is a one-line change. */
   'building-for-the-wrong-audience': {
     title: 'Building for the Wrong Audience',
     sections: [
@@ -52,6 +221,8 @@ export const essaysBySlug: Record<string, Essay> = {
     ],
   },
 
+  /* ARCHIVED 2026-09-10 — note file moved to content/notes-archive/ while
+     Fernando revises it. Text kept here; restoring means moving the .md back. */
   'social-death': {
     title: 'Social death',
     sections: [
@@ -74,16 +245,22 @@ export const essaysBySlug: Record<string, Essay> = {
       'Figures: Harvard Graduate School of Education (meaning and purpose in young adults); World Health Organization (global suicide); CDC / National Center for Health Statistics (US youth suicide, 2007–2021); Pew Research Center (adolescent depression). Quotations from Fyodor Dostoevsky (Demons), Thomas Aquinas, and Margaret Mead.',
   },
 
-  'the-evacuation-of-love': {
-    title: 'The evacuation of love',
+  /* ARCHIVED 2026-09-10 — note file moved to content/notes-archive/ while
+     Fernando revises it. Text kept here; restoring means moving the .md back. */
+  hovering: {
+    title: 'Hovering',
+    subtitle:
+      'A reflection on romantic love in a world engineered for infinite options and against choosing.',
     sections: [
       {
         paragraphs: [
-          'Nowhere has the quiet hollowing of connection gone further than in the way people my age love, or in what we have started calling love in its place. We have let it thin until the word meant less than it used to, and now the thing that once carried the whole weight of union has been emptied so gradually that most people my age cannot remember it ever being heavier. We have not deconstructed love, we have quietly evacuated it.',
-          'The clearest evidence is in the tools we built to find it. A dating app does not promise connection, it promises volume, and it offers the comfort of infinite options as a substitute for the one terrifying thing that love has always actually required, which is the singularity of choosing a person and closing the door on everyone else. Abundance feels like freedom, and for almost everything else it is, but choosing is the one act that abundance quietly destroys. A choice is only real to the degree that it costs the alternatives. A feed engineered to never run out has removed the cost and therefore removed the choice. We swipe under the impression that we are searching, when the searching has become the thing itself, this permanent hovering above commitment that we mistake for keeping our options open.',
-          'This was beautifully orchestrated by Erich Fromm when he argued that we treat love as a feeling we fall into rather than an act we practice, and that a culture organized around consumption would inevitably start appraising people the way it appraises everything else, as packages to be compared, valued, and traded up. That is precisely where I believe we have landed. Sex, once burdened by the language of union, has shed even that pretense and become transactional by design and casual by consensus, we no longer speak of making love, we speak of cracking, and this semantic change is the whole confession.',
-          'I believe we chose this not in an effort of wanting less but because genuine choosing is frightening, and the void where connection used to be aches badly enough that a fleeting version feels better than sitting in the absence, and so we fill it with the endless small desires and distractions that are always within reach. Yet those never touch the actual hunger, they only quiet it long enough to keep us from noticing it, which is exactly why the ache never resolves and the scrolling never stops. What is missing is not more options. It is the willingness to be introspective enough to know what we actually want, and then brave enough to want it in front of another person.',
-          'I write this as someone inside it, as I have felt the pull of the infinite feed and mistaken the hovering for freedom. I have come to believe that real intimacy is the kind we are most afraid of, the kind that requires choosing one person and one life and letting all the other versions go. In a world built to keep us from ever landing, it may be the most radical thing we have left.',
+          'Choosing one person reveals beauty.',
+          'It shows up first in their faults and again in the arrangement itself. Two become one and all of their problems become yours.',
+          'The tools we built to find love are engineered to prevent this. Dating apps promise volume and call it connection. Their feeds produce infinite options and the abundance feels like freedom. The whole mechanic runs on faults. You see one so you swipe and another person arrives. What this technology is best at removing is also what everyone is looking for.',
+          'We swipe under the impression that we are searching, when the searching has become the thing itself. It is a hovering above commitment that we call keeping our options open.',
+          'A culture built on consumption will eventually appraise people the way it does everything else. People end up as packages to be compared, valued, and traded up. Even sex, which used to have a language of union, has shed that pretense. It is transactional by design and casual by consensus. We speak of cracking instead of making love.',
+          'When I deleted all my social media apps I thought I would miss the people. I kept reaching for my phone, and what I missed was the reassurance that connection was possible with someone I had yet to meet. This is what the feed and dating apps sell.',
+          'The absence aches badly enough that a fleeting version of connection feels viable. I used to take the fleeting version and it would quiet the hunger without ever touching it. What is missing is the willingness to be introspective enough to know what we actually want, and then brave enough to want it in front of another person.',
         ],
       },
     ],

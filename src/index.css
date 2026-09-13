@@ -208,25 +208,403 @@ button:hover > .fz-flourish {
   font-weight: 400;
 }
 
-/* Travel photos — B/W at rest; hover crossfades the color original in
-   on opacity alone, and it stays lit once touched */
-.photo-frame .photo-color {
+/* ---------------------------------------------------------------- */
+/* Route map — dots are an external SVG; only the routes are inline.  */
+/* ---------------------------------------------------------------- */
+
+.route-map {
+  margin: 0;
+}
+
+.route-map svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.route-map-leg {
+  fill: none;
+  stroke: #b3402a;
+  stroke-width: 1.3;
+  stroke-linecap: round;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  transition: stroke-dashoffset var(--t, 2s) cubic-bezier(0.4, 0, 0.2, 1) var(--d, 0s);
+}
+
+.route-map.is-drawn .route-map-leg {
+  stroke-dashoffset: 0;
+}
+
+.route-map-stop {
+  fill: #b3402a;
+}
+
+.route-map-home {
+  fill: #f1eee5;
+  stroke: #b3402a;
+  stroke-width: 1.5;
+}
+
+.route-map-ring {
+  fill: none;
+  stroke: #b3402a;
+  stroke-width: 1;
+  opacity: 0;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+.route-map.is-drawn .route-map-ring {
+  animation: route-pulse 2.2s ease-out var(--d, 0s) 1;
+}
+
+@keyframes route-pulse {
+  0% {
+    transform: scale(0.4);
+    opacity: 0.7;
+  }
+  100% {
+    transform: scale(2.4);
+    opacity: 0;
+  }
+}
+
+.route-map-label {
+  font-family: 'Instrument Sans Variable', system-ui, sans-serif;
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  fill: rgba(43, 42, 33, 0.72);
+}
+
+.route-map-year {
+  font-family: 'Cormorant Variable', Georgia, serif;
+  font-style: italic;
+  font-size: 11.5px;
+  fill: rgba(43, 42, 33, 0.55);
+}
+
+/* Phones: the map is a third the size, so only the anchors keep a name */
+@media (max-width: 720px) {
+  .route-map-label,
+  .route-map-year {
+    display: none;
+  }
+  .route-map-label-keep {
+    display: block;
+    font-size: 15px;
+  }
+}
+
+.route-map-foot {
+  margin-top: 10px;
+  font-family: 'Instrument Sans Variable', system-ui, sans-serif;
+  font-size: 13.5px;
+  color: rgba(43, 42, 33, 0.62);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .route-map-leg {
+    transition: none;
+    stroke-dashoffset: 0;
+  }
+  .route-map.is-drawn .route-map-ring {
+    animation: none;
+  }
+}
+
+/* ---------------------------------------------------------------- */
+/* Prints — photographs on a slow strip. Cream matte, two shadows    */
+/* (contact + long ambient, both tinted ink), place and year typed   */
+/* on the foot in the same small caps.                               */
+/* ---------------------------------------------------------------- */
+
+.print-strip {
+  width: 100vw;
+  margin-inline: calc(50% - 50vw);
+  padding: 24px 0 36px;
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+}
+
+.print-track,
+.print-track-copy {
+  display: flex;
+  gap: 22px;
+  width: max-content;
+}
+
+.print-track {
+  animation: print-scroll 52s linear infinite;
+}
+
+.print-track-copy {
+  margin-left: 22px;
+}
+
+.print-strip:hover .print-track {
+  animation-play-state: paused;
+}
+
+@keyframes print-scroll {
+  to {
+    transform: translateX(calc(-50% - 11px));
+  }
+}
+
+.print {
+  position: relative;
+  flex: 0 0 auto;
+  margin: 0;
+  padding: 8px;
+  background: #f1eee5;
+  border-radius: 1px;
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.5),
+    0 1px 1px rgba(43, 42, 33, 0.1),
+    0 2px 3px -1px rgba(43, 42, 33, 0.08),
+    0 22px 34px -20px rgba(43, 42, 33, 0.5);
+}
+
+.print img {
+  display: block;
+  height: 254px;
+  width: auto;
+}
+
+.print-cap {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 9px 2px 2px;
+  font-family: 'Instrument Sans Variable', system-ui, sans-serif;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  line-height: 1;
+  text-transform: uppercase;
+  color: rgba(43, 42, 33, 0.55);
+  font-variant-numeric: tabular-nums;
+}
+
+@media (max-width: 640px) {
+  .print img {
+    height: 200px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .print-strip {
+    overflow-x: auto;
+    -webkit-mask-image: none;
+    mask-image: none;
+  }
+  .print-track {
+    animation: none;
+    padding: 0 24px;
+  }
+  .print-track-copy {
+    display: none;
+  }
+}
+
+/* ---------------------------------------------------------------- */
+/* Films — a cinematic frame that plays silently on entry. 21:9 on    */
+/* desktop where the films' own landscape crop is honest; 16:9 on     */
+/* phones so the title has room. The still sits under the video and   */
+/* the video fades up over it once real frames arrive, so there is    */
+/* never a black box.                                                 */
+/* ---------------------------------------------------------------- */
+
+.film-reel {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  background: #14140f;
+  color: #f1eee5;
+  /* A cream hairline inside the edge and a long low shadow: the dark
+     frame sits on the paper instead of punching a hole through it */
+  box-shadow:
+    inset 0 0 0 1px rgba(241, 238, 229, 0.12),
+    0 34px 70px -34px rgba(43, 42, 33, 0.55);
+}
+
+@media (min-width: 768px) {
+  .film-reel {
+    aspect-ratio: 21 / 9;
+  }
+}
+
+.film-reel-still,
+.film-reel-video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.film-reel-video {
   opacity: 0;
   transition: opacity 1.2s ease;
 }
 
-.photo-frame:hover .photo-color,
-.photo-frame.lit .photo-color {
+.film-reel.is-playing .film-reel-video {
   opacity: 1;
 }
 
-/* Films — opening a film zooms you from the poster into the screen.
-   Inline styles drive the actual travel; this only handles opt-out. */
+.film-reel-scrim {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    180deg,
+    rgba(20, 20, 15, 0) 40%,
+    rgba(20, 20, 15, 0.55) 78%,
+    rgba(20, 20, 15, 0.78) 100%
+  );
+}
+
+/* The whole frame plays and pauses; a play glyph shows while paused */
+.film-reel-surface {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  width: 100%;
+  cursor: pointer;
+}
+
+.film-reel-glyph {
+  display: grid;
+  place-items: center;
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  border: 1px solid rgba(241, 238, 229, 0.8);
+  background: rgba(20, 20, 15, 0.3);
+  backdrop-filter: blur(4px);
+  transition: opacity 0.6s ease;
+}
+
+.film-reel-glyph svg {
+  width: 20px;
+  margin-left: 3px;
+  fill: #f1eee5;
+}
+
+.film-reel.is-playing .film-reel-glyph {
+  opacity: 0;
+}
+
+/* The year, set light and tracked in the utility face — a technical
+   mark in the corner of the frame, not a second piece of display type */
+.film-reel-year {
+  position: absolute;
+  top: clamp(16px, 3vw, 36px);
+  right: clamp(18px, 3.5vw, 48px);
+  font-family: 'Instrument Sans Variable', system-ui, sans-serif;
+  font-weight: 300;
+  font-size: clamp(17px, 1.8vw, 22px);
+  letter-spacing: 0.12em;
+  line-height: 1;
+  color: rgba(241, 238, 229, 0.88);
+  font-variant-numeric: lining-nums tabular-nums;
+  pointer-events: none;
+}
+
+.film-reel-lockup {
+  position: absolute;
+  left: clamp(18px, 3.5vw, 48px);
+  right: clamp(18px, 3.5vw, 48px);
+  bottom: clamp(16px, 3vw, 40px);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 14px;
+  pointer-events: none;
+}
+
+@media (min-width: 768px) {
+  .film-reel-lockup {
+    flex-direction: row;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 24px;
+  }
+}
+
+.film-reel-title {
+  margin: 0;
+  font-family: 'Cormorant Variable', Georgia, serif;
+  font-weight: 400;
+  font-size: clamp(44px, 6.5vw, 96px);
+  line-height: 0.9;
+  letter-spacing: -0.015em;
+  text-shadow: 0 2px 24px rgba(0, 0, 0, 0.35);
+}
+
+.film-reel-ctl {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-shrink: 0;
+  pointer-events: auto;
+}
+
+.film-reel-dur {
+  font-family: 'Instrument Sans Variable', system-ui, sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  color: rgba(241, 238, 229, 0.7);
+  font-variant-numeric: tabular-nums;
+}
+
+.film-reel-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  height: 36px;
+  padding: 0 14px;
+  border-radius: 999px;
+  border: 1px solid rgba(241, 238, 229, 0.55);
+  background: rgba(20, 20, 15, 0.25);
+  backdrop-filter: blur(6px);
+  color: #f1eee5;
+  font-family: 'Instrument Sans Variable', system-ui, sans-serif;
+  font-size: 11.5px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  transition:
+    background-color 0.35s ease,
+    color 0.35s ease,
+    border-color 0.35s ease;
+}
+
+.film-reel-pill svg {
+  width: 12px;
+  height: 12px;
+  fill: currentColor;
+}
+
+.film-reel-pill:hover,
+.film-reel-pill:focus-visible {
+  background: #f1eee5;
+  border-color: #f1eee5;
+  color: #2b2a21;
+  outline: none;
+}
+
 @media (prefers-reduced-motion: reduce) {
-  .film-zoom {
-    transition: none !important;
-    transform: none !important;
-    opacity: 1 !important;
+  .film-reel-video,
+  .film-reel-glyph,
+  .film-reel-pill {
+    transition: none;
   }
 }
 
@@ -236,7 +614,7 @@ button:hover > .fz-flourish {
    fix was removing runtime filters; don't reintroduce this. */
 
 /* ---------------------------------------------------------------- */
-/* Projects — four columns split by hairlines. On scroll the set      */
+/* Projects — four printed sheets in a row. On scroll the set         */
 /* deals like a hand of cards: all four start stacked under the       */
 /* first, then fan right in sequence while each plate flashes in and  */
 /* settles back out. Transform + opacity only, so the deal is a       */
@@ -245,89 +623,152 @@ button:hover > .fz-flourish {
 /* room while the section heading keeps the page's voice.             */
 /* ---------------------------------------------------------------- */
 
-.project-band,
-.project-deck {
-  border-top: 1px solid rgba(43, 42, 33, 0.3);
-  border-bottom: 1px solid rgba(43, 42, 33, 0.3);
-}
-
 /* The deck's own reveal is per-card (below), not the shared fade-up */
 .project-deck.reveal {
   opacity: 1;
   transform: none;
 }
 
-.project-slot {
-  height: 100%;
+/* Sheets separate by gutter, not hairline — each one is its own object */
+.project-grid {
+  gap: 18px;
 }
 
+@media (min-width: 768px) {
+  .project-grid {
+    gap: 22px;
+  }
+}
+
+.project-slot {
+  height: 100%;
+  /* Each slot is a size container so the title can be set against the
+     sheet's own width rather than the viewport's */
+  container-type: inline-size;
+}
+
+/* The sheet. A cut piece of cream stock lying on the bone page, lit from
+   above: brightest at the head, settling toward the page colour at the
+   foot. The inner edge and top highlight make it a sheet rather than a
+   tinted region; the two shadows — a tight contact and a long, low
+   ambient — are tinted ink, never black, so they read as paper on a
+   desk and not a card with a drop shadow. isolate keeps the plate's
+   multiply blend (and the z-order below) inside the sheet. */
 .project-panel {
   position: relative;
+  isolation: isolate;
   height: 100%;
   min-height: 430px;
   overflow: hidden;
-  padding: 34px 24px 24px;
-  /* Solid, not transparent — matches the page exactly at rest, but
-     during the deal each card has to occlude the ones beneath it or
-     their copy shows straight through and nothing is readable. */
-  background: #e9e5d8;
-  border-top: 1px solid rgba(43, 42, 33, 0.3);
-  transition: background-color 0.55s cubic-bezier(0.22, 1, 0.36, 1);
-}
-
-.project-grid > .project-slot:first-child .project-panel {
-  border-top: none;
+  padding: 30px 24px 22px;
+  border-radius: 2px;
+  background: radial-gradient(150% 110% at 50% -10%, #f6f3ea 0%, #f1eee5 46%, #ebe7da 100%);
+  box-shadow:
+    inset 0 0 0 1px rgba(43, 42, 33, 0.07),
+    inset 0 1px 0 rgba(255, 255, 255, 0.6),
+    0 1px 1px rgba(43, 42, 33, 0.07),
+    0 2px 4px -1px rgba(43, 42, 33, 0.06),
+    0 22px 40px -22px rgba(43, 42, 33, 0.34);
+  transition:
+    transform 0.6s cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 0.6s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 @media (min-width: 768px) {
   .project-panel {
     min-height: 66vh;
-    border-top: none;
-    border-left: 1px solid rgba(43, 42, 33, 0.3);
-    padding: 40px 26px 28px;
-  }
-  .project-grid > .project-slot:first-child .project-panel {
-    border-left: none;
+    padding: 30px 26px 24px;
   }
 }
 
 .project-panel:hover,
 .project-panel:focus-visible {
-  background: #f1eee5;
   outline: none;
+  transform: translateY(-4px);
+  box-shadow:
+    inset 0 0 0 1px rgba(43, 42, 33, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.6),
+    0 1px 1px rgba(43, 42, 33, 0.07),
+    0 3px 6px -2px rgba(43, 42, 33, 0.08),
+    0 34px 58px -26px rgba(43, 42, 33, 0.42);
 }
 
-/* Stacked display caps — tall, tight, museum-index voice */
+/* Ghost folio — the edition number at poster scale, tucked behind the
+   title and cropped by the sheet edge. It carries the accent, not the
+   ink: the same rust as the foot number, printed at a tint so it is a
+   layer under the plate rather than a second thing to read. Kept very
+   faint on purpose — rust at any real strength turns pink. */
+.project-panel-folio {
+  position: absolute;
+  z-index: 0;
+  right: -0.04em;
+  top: -0.14em;
+  font-family: 'Instrument Sans Variable', system-ui, sans-serif;
+  font-size: clamp(150px, 14vw, 230px);
+  font-weight: 700;
+  line-height: 0.8;
+  letter-spacing: -0.05em;
+  font-variant-numeric: lining-nums tabular-nums;
+  /* A wash, not a flat fill: strongest at the head of the sheet where
+     the light is, thinning toward the foot like ink pulled through a
+     screen. The average stays around the same 8% as before. */
+  color: transparent;
+  background: linear-gradient(170deg, rgba(179, 64, 42, 0.14) 0%, rgba(179, 64, 42, 0.03) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  pointer-events: none;
+  user-select: none;
+}
+
+/* Stacked display caps — tall, tight, museum-index voice. The one-pixel
+   light text-shadow is a letterpress touch: invisible as an effect,
+   felt as the type sitting *in* the paper. */
 .project-panel-title {
   font-family: 'Prata', Georgia, serif;
   font-weight: 400;
-  font-size: clamp(26px, 2.5vw, 35px);
-  line-height: 1.05;
+  /* Sized against the sheet, not the viewport, so the longest word can
+     never clip. INVESTMENT measures 7.2em in Prata caps plus tracking,
+     and the sheet's inner width is its own width less the padding; the
+     division keeps that word exactly inside at every column width. */
+  font-size: clamp(28px, calc((100cqi - 52px) / 7.3), 44px);
+  line-height: 1.02;
   letter-spacing: 0.01em;
   text-transform: uppercase;
-  color: #2b2a21;
+  color: #25241c;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.4);
   max-width: 7ch; /* forces the stack — one word per line */
+  text-wrap: balance;
 }
 
 .project-panel-meta {
-  margin-top: 14px;
-  max-width: 30ch;
+  margin-top: 16px;
+  max-width: 28ch;
   font-family: 'Instrument Sans Variable', system-ui, sans-serif;
-  font-size: 13px;
+  font-size: 15px;
   line-height: 1.55;
-  color: rgba(43, 42, 33, 0.66);
+  color: rgba(43, 42, 33, 0.74);
 }
 
-/* The plate — contained, never cropped, each with its own scale so a
-   wide car sketch and a tall figure both sit right in a narrow column */
+/* The plate — contained, never cropped, standing on the foot of the
+   sheet. Multiply is the whole trick: an opacity fade turns the moss
+   ink into a grey wash floating over the paper, while multiply darkens
+   the paper it touches, so the crosshatching prints into the grain.
+   Always present — the art is the first thing seen, not a reward for
+   hovering — and hover takes it to full ink with a slow settle. */
 .project-panel-art {
   position: absolute;
-  inset: 0;
+  z-index: 1;
+  left: 0;
+  right: 0;
+  bottom: 0;
   width: 100%;
-  height: 100%;
+  height: var(--plate-h, 80%);
   object-fit: contain;
-  opacity: 0;
-  transform: translateZ(0) scale(calc(var(--plate-scale, 1) * 1.04));
+  object-position: center bottom;
+  mix-blend-mode: multiply;
+  opacity: 0.36;
+  transform: translateZ(0) scale(1.04);
+  transform-origin: 50% 100%;
   transition:
     opacity 0.7s ease,
     transform 1.1s cubic-bezier(0.22, 1, 0.36, 1);
@@ -336,8 +777,8 @@ button:hover > .fz-flourish {
 
 .project-panel:hover .project-panel-art,
 .project-panel:focus-visible .project-panel-art {
-  opacity: 0.62;
-  transform: translateZ(0) scale(var(--plate-scale, 1));
+  opacity: 1;
+  transform: translateZ(0) scale(1);
 }
 
 /* Paper scrim over the plate, strongest where the type sits — the
@@ -346,16 +787,15 @@ button:hover > .fz-flourish {
   content: '';
   position: absolute;
   inset: 0;
-  z-index: 1;
+  z-index: 2;
   pointer-events: none;
   opacity: 0;
   transition: opacity 0.7s ease;
   background: linear-gradient(
     180deg,
-    rgba(241, 238, 229, 0.94) 0%,
-    rgba(241, 238, 229, 0.88) 26%,
-    rgba(241, 238, 229, 0.42) 48%,
-    rgba(241, 238, 229, 0) 68%
+    rgba(241, 238, 229, 0.9) 0%,
+    rgba(241, 238, 229, 0.72) 30%,
+    rgba(241, 238, 229, 0) 58%
   );
 }
 
@@ -364,7 +804,8 @@ button:hover > .fz-flourish {
   opacity: 1;
 }
 
-/* Editioned foot — small red number, arrow to the read */
+/* Editioned foot — dotted leader (a print device, not a web rule),
+   the rust edition number, and a label that says what opens */
 .project-panel-foot {
   display: flex;
   align-items: center;
@@ -373,38 +814,75 @@ button:hover > .fz-flourish {
      however much copy lands above it */
   margin-top: auto;
   padding-top: 14px;
-  border-top: 1px solid rgba(43, 42, 33, 0.22);
+  border-top: 1px dotted rgba(43, 42, 33, 0.42);
 }
 
 .project-panel-num {
   font-family: 'Instrument Sans Variable', system-ui, sans-serif;
-  font-size: clamp(24px, 2.1vw, 30px);
+  font-size: clamp(22px, 1.9vw, 28px);
   font-weight: 700;
   letter-spacing: 0.02em;
   line-height: 1;
   color: #b3402a;
 }
 
-.project-panel-arrow {
-  font-size: 18px;
-  line-height: 1;
-  color: rgba(43, 42, 33, 0.5);
-  transition:
-    transform 0.4s cubic-bezier(0.22, 1, 0.36, 1),
-    color 0.4s ease;
+/* The open control: small caps on a rust hairline, with the arrow
+   outside the underline. The edition number stays the sheet's only
+   solid colour; this is a line of the same colour, so it rhymes
+   without competing. */
+.project-panel-cta {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 9px;
 }
 
-.project-panel:hover .project-panel-arrow,
-.project-panel:focus-visible .project-panel-arrow {
+.project-panel-cta-label {
+  font-family: 'Instrument Sans Variable', system-ui, sans-serif;
+  font-size: 13.5px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  line-height: 1;
+  text-transform: uppercase;
+  color: rgba(43, 42, 33, 0.85);
+  padding-bottom: 6px;
+  border-bottom: 1px solid #b3402a;
+  transition: color 0.4s ease;
+}
+
+.project-panel-cta-arrow {
+  font-size: 17px;
+  line-height: 1;
   color: #b3402a;
-  transform: translate(3px, -3px);
+  transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.project-panel:hover .project-panel-cta-label,
+.project-panel:focus-visible .project-panel-cta-label {
+  color: #b3402a;
+}
+
+.project-panel:hover .project-panel-cta-arrow,
+.project-panel:focus-visible .project-panel-cta-arrow {
+  transform: translate(2px, -2px);
+}
+
+/* Stands in for the label on panels with nothing to open yet */
+.project-panel-soon {
+  font-family: 'Instrument Sans Variable', system-ui, sans-serif;
+  font-size: 11.5px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  line-height: 1;
+  text-transform: uppercase;
+  color: rgba(43, 42, 33, 0.38);
 }
 
 /* ---- The deal ------------------------------------------------- */
-/* Desktop only: stacking columns on top of each other is meaningless
-   in a single-column phone layout, which just fades up instead. */
+/* Four-up layouts only: the offsets assume one row of four, and
+   stacking columns on top of each other is meaningless in the one- and
+   two-column layouts, which just fade up instead. */
 
-@media (min-width: 768px) {
+@media (min-width: 1280px) {
   .project-deck .project-slot {
     position: relative;
     transform: translateX(var(--deal-from, 0));
@@ -430,23 +908,29 @@ button:hover > .fz-flourish {
   }
 }
 
+/* Starts and ends at the resting tint, so there is no jump when the
+   animation hands the property back */
 @keyframes plate-deal {
   0% {
-    opacity: 0;
+    opacity: 0.36;
   }
   42% {
-    opacity: 0.72;
+    opacity: 1;
   }
   100% {
-    opacity: 0;
+    opacity: 0.36;
   }
 }
 
-/* Phones: no deal, no hover — the plate arrives with the card */
+/* Phones: no deal and no hover, so the plate never gets its full-ink
+   moment. At the desktop resting tint the sheets read pale and
+   unfinished, so touch prints at 60% and keeps the scrim on under the
+   type. Cream scrim on a cream sheet — the old bone-vs-cream problem
+   went away with the hover fill. */
 @media (hover: none) {
-  .reveal.revealed .project-panel-art {
-    opacity: 0.5;
-    transform: translateZ(0) scale(var(--plate-scale, 1));
+  .project-panel-art {
+    opacity: 0.6;
+    transform: translateZ(0) scale(1);
   }
   .project-panel::after {
     opacity: 1;
@@ -457,7 +941,7 @@ button:hover > .fz-flourish {
   .project-deck .project-slot,
   .project-panel,
   .project-panel-art,
-  .project-panel-arrow,
+  .project-panel-cta,
   .project-panel::after {
     transition: none;
     animation: none;
@@ -466,8 +950,8 @@ button:hover > .fz-flourish {
     transform: none;
   }
   .project-panel-art {
-    opacity: 0.5;
-    transform: translateZ(0) scale(var(--plate-scale, 1));
+    opacity: 0.6;
+    transform: translateZ(0) scale(1);
   }
   .project-panel::after {
     opacity: 1;

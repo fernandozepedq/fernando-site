@@ -12,7 +12,7 @@ export default function Writing() {
         <Reveal>
           <h2
             className="display font-serif font-medium leading-[1.1] text-ink"
-            style={{ fontSize: 'clamp(38px, 5.2vw, 62px)' }}
+            style={{ fontSize: 'clamp(46px, 6.4vw, 78px)' }}
           >
             Writing
           </h2>

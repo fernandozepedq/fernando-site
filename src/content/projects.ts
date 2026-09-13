@@ -27,7 +27,7 @@ export const projects: Project[] = [
     slug: 'danos-detailing',
     title: "Dano's Detailing",
     teaser:
-      'Lessons from my six figure business and its catalog acquisition. Everything I learned from my 3 year adventure.',
+      'How a seventeen-year-old with no credibility got the first stranger to say yes.',
     writeup: 'danos-detailing',
     image: '/images/plates/danos.png',
     plateHeight: '72%',
@@ -36,7 +36,7 @@ export const projects: Project[] = [
     slug: 'investment-thesis',
     title: 'Investment Thesis',
     teaser:
-      'A $50k position that reached $500k and went to zero. What I got right, and what it cost me.',
+      '$50k in, $500k at the peak, zero eight months later. Four sell targets hit, I took none.',
     writeup: 'investment-thesis',
     image: '/images/plates/thesis.png',
     plateHeight: '86%',
@@ -45,14 +45,14 @@ export const projects: Project[] = [
     slug: 'venture-summit',
     title: 'Venture Summit',
     teaser:
-      'Building a private venture summit in San Diego. Why SD is a hidden gem for startups.',
+      'UCSD has the founders and the research. It has not had the room where they meet.',
     image: '/images/plates/summit.png',
     plateHeight: '86%',
   },
   {
     slug: 'batman-gauntlet',
     title: 'Batman Gauntlet',
-    teaser: 'A fully 3D printed gauntlet with spikes that deploy.',
+    teaser: 'Turn the potentiometer and the spikes deploy. Every part 3D printed.',
     image: '/images/plates/gauntlet.png',
     plateHeight: '78%',
     buildPage: { label: 'Build' },

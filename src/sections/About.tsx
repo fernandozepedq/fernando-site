@@ -46,28 +46,27 @@ export default function About() {
           >
             <p>Hey, I&rsquo;m Fernando. I like to live life as an experiment.</p>
             <p>
-              At seventeen I started an automotive detailing business in my hometown of
-              Tracy, California. Over 2.5 years I grew it to 500+ unique clients and sold
-              the catalog in January 2025. Along the way, I tried building a marketing
-              agency, which failed. Cold calling is hard.
+              At seventeen I started an automotive detailing business in Tracy,
+              California. I grew it to 500+ clients over two and a half years and sold the
+              catalog in January 2025. I tried a marketing agency next. It failed. Cold
+              calling is hard.
             </p>
             <p>
-              After that, I spent three months developing an investment thesis on how
-              Coinbase would push 100 million users onto its new blockchain. I pushed my
-              chips in, watched the position climb from $50K to $500K, and over the
-              following eight months lost it all. I ended up $50K in debt around the time
-              I turned 20. I took the last of my money backpacking through Asia, came
-              home, and flipped sectional couches to begin recouping my losses.
+              Then I spent three months building an investment thesis on how Coinbase
+              would push 100 million users onto its new blockchain. I pushed my chips in,
+              watched $50K become $500K, and lost all of it over the next eight months. I
+              turned 20 owing $50K. I took the last of my money backpacking through Asia,
+              came home, and flipped sectional couches to start paying it back.
             </p>
             <p>
               I was selected as 1 of 12 for the inaugural Poseidon Fellows cohort, which
-              pulled me into startups and venture capital. I am currently building a
-              private venture summit in San Diego.
+              pulled me into startups and venture capital. I am building a private venture
+              summit in San Diego.
             </p>
             <p>
               I&rsquo;m drawn to problems of the physical world: climate, hardware, the
-              unglamorous corners of engineering. Something built well moves people. It is
-              why I write, why I make short films, why I create.{' '}
+              unglamorous corners of engineering. Something built well stays with people.
+              It is why I write, why I make short films, why I create.{' '}
               <strong className="font-bold text-ink">
                 I want people to feel something personal and be moved by it.
               </strong>

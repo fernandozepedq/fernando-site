@@ -36,7 +36,7 @@ export const projects: Project[] = [
     slug: 'investment-thesis',
     title: 'Investment Thesis',
     teaser:
-      '$50k in, $500k at the peak, -$50k at twenty. Four sell targets hit, I took none.',
+      '$50k in, $500k at the peak, -$50k at twenty. Four sell targets hit. I took none.',
     writeup: 'investment-thesis',
     image: '/images/plates/thesis.png',
     plateHeight: '86%',
@@ -45,7 +45,7 @@ export const projects: Project[] = [
     slug: 'venture-summit',
     title: 'Venture Summit',
     teaser:
-      'Founders and investors in one room in San Diego. Building it now.',
+      'Founders and investors in one room in San Diego.',
     image: '/images/plates/summit.png',
     plateHeight: '86%',
   },

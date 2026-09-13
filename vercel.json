@@ -2,7 +2,6 @@
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "redirects": [
     {
-      "//": "The auto-assigned Vercel hostname stays live and serves a full copy of the site. Left alone that is a second address competing with the real one, so it is sent to the domain instead. The host match is the exact production alias, so preview deployments are untouched.",
       "source": "/(.*)",
       "has": [{ "type": "host", "value": "fernando-site.vercel.app" }],
       "destination": "https://www.fernandozepeda.me/$1",

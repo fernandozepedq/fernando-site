@@ -36,7 +36,7 @@ export const projects: Project[] = [
     slug: 'investment-thesis',
     title: 'Investment Thesis',
     teaser:
-      '$50k in, $500k at the peak, zero eight months later. Four sell targets hit, I took none.',
+      '$50k in, $500k at the peak, -$50k at twenty. Four sell targets hit, I took none.',
     writeup: 'investment-thesis',
     image: '/images/plates/thesis.png',
     plateHeight: '86%',
@@ -45,14 +45,14 @@ export const projects: Project[] = [
     slug: 'venture-summit',
     title: 'Venture Summit',
     teaser:
-      'UCSD has the founders and the research. It has not had the room where they meet.',
+      'Founders and investors in one room in San Diego. Building it now.',
     image: '/images/plates/summit.png',
     plateHeight: '86%',
   },
   {
     slug: 'batman-gauntlet',
     title: 'Batman Gauntlet',
-    teaser: 'Turn the potentiometer and the spikes deploy. Every part 3D printed.',
+    teaser: 'Throw a punch and the spikes fire out of the wrist. Every part 3D printed.',
     image: '/images/plates/gauntlet.png',
     plateHeight: '78%',
     buildPage: { label: 'Build' },

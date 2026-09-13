@@ -111,11 +111,13 @@ button {
   transform: none;
 }
 
+/* Reduced motion keeps the fade and loses the travel. Opacity changes
+   do not trigger motion sensitivity; movement across the screen does,
+   so that is the part removed, not the whole entrance. */
 @media (prefers-reduced-motion: reduce) {
   .js .reveal {
-    transition: none;
-    opacity: 1;
     transform: none;
+    transition: opacity 0.7s ease;
   }
 }
 
@@ -162,11 +164,17 @@ button {
   bottom: 0;
   height: 1px;
   background: rgba(69, 107, 57, 0.5);
-  transform: scaleX(0);
   transform-origin: left;
   transition:
     transform 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.4s,
     background-color 0.3s ease;
+}
+
+/* Undrawn only when scripting runs. The article pages ship no
+   JavaScript, and a link underline that waits for an observer that
+   never comes is a link with no underline. */
+.js .draw-underline::after {
+  transform: scaleX(0);
 }
 
 .revealed .draw-underline::after {
@@ -178,7 +186,7 @@ button {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .draw-underline::after,
+  .js .draw-underline::after,
   .revealed .draw-underline::after {
     transition: none;
     transform: scaleX(1);
@@ -232,11 +240,17 @@ button:hover > .fz-flourish {
   stroke-width: 1.3;
   stroke-linecap: round;
   stroke-dasharray: 1;
-  stroke-dashoffset: 1;
+  stroke-dashoffset: 0;
   transition: stroke-dashoffset var(--t, 2s) cubic-bezier(0.4, 0, 0.2, 1) var(--d, 0s);
 }
 
-.route-map.is-drawn .route-map-leg {
+/* Undrawn only when scripting runs — without it the observer never
+   fires and the route would never appear at all. */
+.js .route-map-leg {
+  stroke-dashoffset: 1;
+}
+
+.js .route-map.is-drawn .route-map-leg {
   stroke-dashoffset: 0;
 }
 
@@ -309,11 +323,11 @@ button:hover > .fz-flourish {
   color: rgba(43, 42, 33, 0.62);
 }
 
+/* Under reduced motion the route still draws. A thin line tracing
+   across a still map is the content here — it shows the order of the
+   trip — and it moves nothing on the page. The pulses only scale, so
+   they are the part that goes. */
 @media (prefers-reduced-motion: reduce) {
-  .route-map-leg {
-    transition: none;
-    stroke-dashoffset: 0;
-  }
   .route-map.is-drawn .route-map-ring {
     animation: none;
   }
@@ -349,8 +363,52 @@ button:hover > .fz-flourish {
   margin-left: 22px;
 }
 
-.print-strip:hover .print-track {
+.print-strip:hover .print-track,
+.print-strip.is-paused .print-track {
   animation-play-state: paused;
+}
+
+/* Anything that moves on its own for more than a few seconds needs a
+   way to stop it that does not depend on a mouse. Hover pauses it for a
+   cursor; this does the same for a keyboard or a thumb. */
+.print-controls {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: -14px;
+}
+
+/* On a phone this is the only way to stop the strip — there is no
+   hover on touch — so the hit area is sized for a thumb (44px) even
+   though the label itself stays small. */
+.print-toggle {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  min-width: 44px;
+  padding: 0 4px;
+  font-family: 'Instrument Sans Variable', system-ui, sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  line-height: 1;
+  text-transform: uppercase;
+  color: rgba(43, 42, 33, 0.6);
+  transition: color 0.3s ease;
+}
+
+.print-toggle span {
+  padding-bottom: 4px;
+  border-bottom: 1px solid #b3402a;
+}
+
+.print-toggle:hover,
+.print-toggle:focus-visible {
+  color: #b3402a;
+}
+
+.print-toggle:focus-visible {
+  outline: 2px solid #456b39;
+  outline-offset: 4px;
 }
 
 @keyframes print-scroll {
@@ -411,6 +469,9 @@ button:hover > .fz-flourish {
     padding: 0 24px;
   }
   .print-track-copy {
+    display: none;
+  }
+  .print-controls {
     display: none;
   }
 }
@@ -887,7 +948,7 @@ button:hover > .fz-flourish {
    two-column layouts, which just fade up instead. */
 
 @media (min-width: 1280px) {
-  .project-deck .project-slot {
+  .js .project-deck .project-slot {
     position: relative;
     transform: translateX(var(--deal-from, 0));
     transition: transform 1.05s cubic-bezier(0.22, 1, 0.36, 1);
@@ -900,7 +961,7 @@ button:hover > .fz-flourish {
   .project-grid > .project-slot:nth-child(3) { z-index: 2; --deal-from: -200%; --deal-delay: 0.2s; }
   .project-grid > .project-slot:nth-child(4) { z-index: 1; --deal-from: -300%; --deal-delay: 0.3s; }
 
-  .project-deck.revealed .project-slot {
+  .js .project-deck.revealed .project-slot {
     transform: translateX(0);
   }
 
@@ -941,24 +1002,31 @@ button:hover > .fz-flourish {
   }
 }
 
+/* Reduced motion: the cards no longer slide out from under each other,
+   but they still arrive — each fades in on the same stagger, so the set
+   still reads as dealt without anything crossing the screen. Hover keeps
+   its ink and shadow and loses only its lift. */
 @media (prefers-reduced-motion: reduce) {
-  .project-deck .project-slot,
-  .project-panel,
-  .project-panel-art,
-  .project-panel-cta,
-  .project-panel::after {
-    transition: none;
-    animation: none;
-  }
-  .project-deck .project-slot {
+  .js .project-deck .project-slot,
+  .js .project-deck.revealed .project-slot {
     transform: none;
   }
-  .project-panel-art {
-    opacity: 0.6;
-    transform: translateZ(0) scale(1);
+  .js .project-deck .project-slot {
+    opacity: 0;
+    transition: opacity 0.8s ease;
+    transition-delay: var(--deal-delay, 0s);
   }
-  .project-panel::after {
+  .js .project-deck.revealed .project-slot {
     opacity: 1;
+  }
+  .project-panel:hover,
+  .project-panel:focus-visible {
+    transform: none;
+  }
+  .project-panel-art,
+  .project-panel:hover .project-panel-art,
+  .project-panel:focus-visible .project-panel-art {
+    transform: translateZ(0) scale(1);
   }
 }
 
@@ -988,11 +1056,17 @@ button:hover > .fz-flourish {
 
 .hero-line-inner {
   display: block;
+}
+
+/* Below the mask only when scripting runs: the class that releases the
+   name is set from JavaScript, so without this scope the prerendered
+   page would carry a name nobody can see. */
+.js .hero-line-inner {
   transform: translateY(115%);
   transition: transform 1.2s cubic-bezier(0.1, 0.8, 0.2, 1);
 }
 
-.hero-ready .hero-line-inner {
+.js .hero-ready .hero-line-inner {
   transform: translateY(0);
 }
 
@@ -1006,7 +1080,7 @@ button:hover > .fz-flourish {
   display: flex;
   align-items: center;
   justify-content: center;
-  opacity: 0;
+  opacity: var(--hero-art-opacity, 0.9);
   /* The drift scales the plate past its box — clip it, or the overflow
      widens the page and the whole site can be dragged sideways */
   overflow: hidden;
@@ -1038,6 +1112,10 @@ button:hover > .fz-flourish {
   }
 }
 
+.js .hero-art {
+  opacity: 0;
+}
+
 /* Art fades in immediately — the name draws over it */
 .hero-ready .hero-art {
   animation: hero-art-in 0.6s ease-out forwards;
@@ -1050,7 +1128,7 @@ button:hover > .fz-flourish {
 }
 
 /* Tagline + buttons arrive once the name has settled */
-.hero-late {
+.js .hero-late {
   opacity: 0;
 }
 
@@ -1068,23 +1146,20 @@ button:hover > .fz-flourish {
   html {
     scroll-behavior: auto;
   }
-  .hero-line-inner,
-  .hero-ready .hero-line-inner {
-    transition: none;
+  /* The name still arrives, as a fade rather than a rise out of its
+     mask. The plate and tagline keep their fades, which were only ever
+     opacity; the plate's slow zoom-drift is the part that goes. */
+  .js .hero-line-inner {
     transform: none;
+    opacity: 0;
+    transition: opacity 0.9s ease;
   }
-  .hero-art,
-  .hero-ready .hero-art {
-    animation: none;
-    opacity: var(--hero-art-opacity, 0.9);
+  .js .hero-ready .hero-line-inner {
+    transform: none;
+    opacity: 1;
   }
   .hero-art img {
     animation: none;
-  }
-  .hero-late,
-  .hero-ready .hero-late {
-    animation: none;
-    opacity: 1;
   }
 }
 
